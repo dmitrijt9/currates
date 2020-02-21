@@ -1,38 +1,16 @@
 <template>
-    <BottomNavigation selectedIndex="0">
-        <!-- The bottom tab UI is created via TabStrip (the containier) and TabStripItem (for each tab)-->
-        <TabStrip>
-            <TabStripItem class="convert">
-                <Label text="Convert"></Label>
-                <Image src.decode="font://&#xf362;" class="fas t-36"></Image>
-            </TabStripItem>
-            <TabStripItem class="rates">
-                <Label text="Common rates"></Label>
-                <Image src.decode="font://&#xf080;" class="fas t-36"></Image>
-            </TabStripItem>
-            <TabStripItem class="favourite-rates">
-                <Label text="Favourite rates"></Label>
-                <Image src.decode="font://&#xf005;" class="fas t-36"></Image>
-            </TabStripItem>
-        </TabStrip>
-
-        <!-- The number of TabContentItem components should corespond to the number of TabStripItem components -->
-<!--        Convert tab with main functionality of conversion-->
-        <TabContentItem class="nt-tab-content__item">
+    <TabView :selectedIndex="selectedTab" androidTabsPosition="bottom" tabTextColor="white">
+        <TabViewItem title.decode="&#xf153;" class="fas t-36">
             <ConvertTab />
-        </TabContentItem>
-
-<!--        Common rates tab with a list of common rates-->
-        <TabContentItem class="nt-tab-content__item">
+        </TabViewItem>
+        <TabViewItem title.decode="&#xf080;" class="fas t-36">
             <CommonRatesTab />
-        </TabContentItem>
-
-<!--        Favourite rates tab with a list of favourite rates-->
-        <TabContentItem class="nt-tab-content__item">
+        </TabViewItem>
+        <TabViewItem title.decode="&#xf005;" class="fas t-36">
             <FavouriteRatesTab />
-        </TabContentItem>
+        </TabViewItem>
 
-    </BottomNavigation>
+    </TabView>
 </template>
 
 <script>
@@ -41,6 +19,11 @@
     import FavouriteRatesTab from "./FavouriteRatesTab";
 
     export default {
+        data() {
+          return {
+              selectedTab: 0
+          }
+        },
         components: {
             ConvertTab,
             CommonRatesTab,
@@ -48,12 +31,3 @@
         }
     }
 </script>
-
-<style scoped lang="scss">
-    @import '~@nativescript/theme/scss/variables/lime';
-
-    // Custom styles
-    .fas {
-        @include colorize($color: accent);
-    }
-</style>
