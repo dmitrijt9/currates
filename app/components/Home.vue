@@ -1,5 +1,5 @@
 <template>
-    <Page :actionBarHidden="true">
+    <Page :actionBarHidden="false">
         <BottomNavigation />
     </Page>
 </template>

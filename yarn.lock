@@ -4002,6 +4002,21 @@ nativescript-hook@0.2.5:
     glob "^6.0.1"
     mkdirp "^0.5.1"
 
+nativescript-socketio@^3.3.1:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/nativescript-socketio/-/nativescript-socketio-3.3.1.tgz#816089e18a5d54cb8ed3a133b91a89d0d5724203"
+  integrity sha512-D6MbMJAy9wjv62ga+oieIv7gxjcGA0CPGORN0VeC31WL/bdZltulu7RMPWY9uAck/4YSDIPoYVY17WGH9AXsIw==
+
+nativescript-toasty@^3.0.0-alpha.2:
+  version "3.0.0-alpha.2"
+  resolved "https://registry.yarnpkg.com/nativescript-toasty/-/nativescript-toasty-3.0.0-alpha.2.tgz#3fcc1328e944f6671b88752ff41e4de68d244647"
+  integrity sha512-GGYdiPAhGbwITmxnkWL4oCYW//ExR/ir38oqzbAFI7uZD+1NkD7FcCh68vpOvUpHmB09SqeHI30aeuBcTndB+w==
+
+nativescript-vue-devtools@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/nativescript-vue-devtools/-/nativescript-vue-devtools-1.2.0.tgz#188111327b6a20339eea3d63af3ab2856bfd6503"
+  integrity sha512-PhE+zNbSypKut7h7ydoqGWIDBUY33y0CokU/+rA3kgJfjPZ8OnCrWcq092dUbWUtpzIiENMY/viDK0o+xgKroQ==
+
 nativescript-vue-template-compiler@~2.4.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/nativescript-vue-template-compiler/-/nativescript-vue-template-compiler-2.4.0.tgz#af77f127c611aa9e32c98a15a2403633995d6f57"

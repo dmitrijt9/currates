@@ -1,25 +1,12 @@
 <template>
     <StackLayout>
-        <Label text="Convert" class="h1 text-center p-t-16"></Label>
+        <!--        <Label text="" class="h1 text-center p-t-16"></Label>-->
         <Label v-if="conversionResult" :text="conversionResult" class="h1 text-center"></Label>
         <FlexboxLayout flexDirection="row" alignItems="center" justifyContent="space-around" margin="16">
-            <ListPicker
-                    class="currency-picker"
-                    :items="symbols"
-                    selectedIndex="0"
-                    height="150"
+            <Button :text="selectedSymbolBase" class="btn -primary -rounded-lg" @tap="selectBase"/>
 
-                    v-model="selectedSymbolBase"
-            />
             <Button text.decode="&#xf362;" class="-primary fas -rounded-sm" @tap="switchBaseTo"/>
-
-            <ListPicker
-                    class="currency-picker"
-                    :items="symbols"
-                    selectedIndex="0"
-                    height="150"
-                    v-model="selectedSymbolTo"
-            />
+            <Button :text="selectedSymbolTo" class="-primary -rounded-lg" @tap="selectTo"/>
         </FlexboxLayout>
         <FlexboxLayout flexDirection="row" alignItems="center" justifyContent="space-around" margin="16">
             <TextField
@@ -44,8 +31,8 @@
         data() {
             return {
                 conversionResult: null,
-                selectedSymbolBase: null,
-                selectedSymbolTo: null,
+                selectedSymbolBase: 'EUR',
+                selectedSymbolTo: 'EUR',
                 enteredValue: null
             }
         },
@@ -55,6 +42,18 @@
             }
         },
         methods: {
+            selectBase() {
+                action("Select base currency", "Cancel", this.symbols)
+                    .then(res => {
+                        this.selectedSymbolBase = res
+                    })
+            },
+            selectTo() {
+                action("Select to currency", "Cancel", this.symbols)
+                    .then(res => {
+                        this.selectedSymbolTo = res
+                    })
+            },
             switchBaseTo() {
                 const tmp = this.selectedSymbolBase
                 this.selectedSymbolBase = this.selectedSymbolTo
@@ -79,9 +78,5 @@
 </script>
 
 <style scoped lang="scss">
-    @import "~@nativescript/theme/lime";
-
-    .currency-picker {
-        color: white;
-    }
+    @import "../app.scss";
 </style>
