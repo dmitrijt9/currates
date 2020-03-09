@@ -13,7 +13,8 @@
   "repository": "<fill-your-repository-here>",
   "scripts": {
     "run:devtools": "yarn vue-devtools",
-    "dev": "tns preview --no-hmr"
+    "dev": "tns preview --no-hmr",
+    "build:android": "tns build android"
   },
   "dependencies": {
     "@nativescript/theme": "~2.3.0",
