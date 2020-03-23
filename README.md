@@ -4,6 +4,10 @@ Android / iOS app providing fast conversion of most common rates.
 
 //TODO add app description
 
+## Prototype
+
+- Figma - https://www.figma.com/proto/BZioDAVQv0GyKIbQo0zyjo/Currates?node-id=13%3A207&scaling=scale-down
+
 ## Development
 
 Before first run:
