@@ -1,6 +1,8 @@
-@import "~@nativescript/theme/core";
-@import "~@nativescript/theme/lemon";
+$accent: #00897b;
+$complementary: #4ebaaa;
+$border-radius-xl: 100%;
 
+@import "~@nativescript/theme/index";
 // Place any CSS rules you want to apply on both iOS and Android here.
 // This is where the vast majority of your CSS code goes.
 
@@ -20,9 +22,31 @@
     font-weight: 400;
 }
 
-// tabs common styles
-//.nt-tab-content__item {
-//    .h2 {
-//        margin: 4px;
-//    }
-//}
+.bounce-enter-active {
+    animation-name: bounce-in;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;
+}
+
+.bounce-leave-active {
+    animation-name: bounce-in;
+    animation-duration: 0.25s;
+    animation-fill-mode: forwards;
+    animation-direction: reverse;
+    animation-timing-function: ease-in-out;
+}
+
+@keyframes bounce-in {
+    0% {
+        transform: scale(0);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
