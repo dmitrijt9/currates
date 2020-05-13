@@ -1,6 +1,7 @@
 const config = {
     api: {
-        baseUrl: "https://api.exchangeratesapi.io/latest?"
+        key: 'cf45aa341aeeb907437fb2dd259727a2', //fufufufujfufjufjfuj!!! snad nikdo nezneuzije :D
+        baseUrl: "http://data.fixer.io/api/"
     }
 }
 

@@ -1,3 +1,4 @@
+import VueDevtools from 'nativescript-vue-devtools'
 import Vue from "nativescript-vue";
 import Convert from "./pages/Convert";
 import Rates from "./pages/Rates";
@@ -8,9 +9,8 @@ import config from "~/config";
 
 Vue.config.silent = false;
 Vue.prototype.config = config
-
+Vue.use(VueDevtools, { host: '192.168.0.24' })
 new Vue({
-
     template: `
 
     <BottomNavigation>
@@ -52,5 +52,14 @@ new Vue({
     },
     store,
     httpModule,
-    config
+    config,
+    mixins: [
+        {
+            async created() {
+                // todo check connection and load from local db if not connected
+                // fetch all convert symbols
+                await this.$store.dispatch('fetchSymbols')
+            }
+        }
+    ]
 }).$start();

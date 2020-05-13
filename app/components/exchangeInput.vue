@@ -18,6 +18,11 @@ export default {
         return {
             enteredValue: null
         }
+    },
+    watch: {
+        enteredValue(n) {
+            this.$emit('input', n)
+        }
     }
 }
 </script>

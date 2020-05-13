@@ -13,6 +13,7 @@ android {
   defaultConfig {
     minSdkVersion 17
     generatedDensities = []
+    applicationId = "org.nativescript.currencyconverter"
   }
   aaptOptions {
     additionalParameters "--no-version-vectors"

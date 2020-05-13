@@ -1,11 +1,11 @@
 {
   "nativescript": {
     "id": "org.nativescript.currencyconverter",
-    "tns-android": {
-      "version": "6.4.1"
-    },
     "tns-ios": {
       "version": "6.4.0"
+    },
+    "tns-android": {
+      "version": "6.4.1"
     }
   },
   "description": "NativeScript Application",
@@ -13,16 +13,18 @@
   "repository": "<fill-your-repository-here>",
   "scripts": {
     "run:devtools": "yarn vue-devtools",
-    "dev": "tns preview --no-hmr",
+    "preview": "tns preview",
+    "dev": "tns run android",
     "build:android": "tns build android"
   },
   "dependencies": {
     "@nativescript/theme": "~2.3.0",
     "@vue/devtools": "^5.3.3",
+    "dotenv": "^8.2.0",
     "nativescript-socketio": "^3.3.1",
     "nativescript-toasty": "^3.0.0-alpha.2",
     "nativescript-vue": "~2.4.0",
-    "nativescript-vue-devtools": "^1.2.0",
+    "nativescript-vue-devtools": "^1.4.0",
     "tns-core-modules": "~6.4.0",
     "vuex": "^3.1.2"
   },

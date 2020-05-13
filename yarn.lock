@@ -2123,6 +2123,11 @@ domain-browser@^1.1.1:
   resolved "https://registry.yarnpkg.com/domain-browser/-/domain-browser-1.2.0.tgz#3d31f50191a6749dd1375a7f522e823d42e54eda"
   integrity sha512-jnjyiM6eRyZl2H+W8Q/zLMA481hzi0eszAaBUzIVnmYVDBbnLxVNnfu1HgEBvCbL+71FrxMl3E6lpKH7Ge3OXA==
 
+dotenv@^8.2.0:
+  version "8.2.0"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-8.2.0.tgz#97e619259ada750eea3e4ea3e26bceea5424b16a"
+  integrity sha512-8sJ78ElpbDJBHNeBzUbUVLsqKdccaa/BXF1uPTw3GrvQTBgrQrtObr2mUrE38vzYd8cEv+m/JBfDLioYcfXoaw==
+
 duplexer3@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/duplexer3/-/duplexer3-0.1.4.tgz#ee01dd1cac0ed3cbc7fdbea37dc0a8f1ce002ce2"
@@ -4012,10 +4017,10 @@ nativescript-toasty@^3.0.0-alpha.2:
   resolved "https://registry.yarnpkg.com/nativescript-toasty/-/nativescript-toasty-3.0.0-alpha.2.tgz#3fcc1328e944f6671b88752ff41e4de68d244647"
   integrity sha512-GGYdiPAhGbwITmxnkWL4oCYW//ExR/ir38oqzbAFI7uZD+1NkD7FcCh68vpOvUpHmB09SqeHI30aeuBcTndB+w==
 
-nativescript-vue-devtools@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/nativescript-vue-devtools/-/nativescript-vue-devtools-1.2.0.tgz#188111327b6a20339eea3d63af3ab2856bfd6503"
-  integrity sha512-PhE+zNbSypKut7h7ydoqGWIDBUY33y0CokU/+rA3kgJfjPZ8OnCrWcq092dUbWUtpzIiENMY/viDK0o+xgKroQ==
+nativescript-vue-devtools@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/nativescript-vue-devtools/-/nativescript-vue-devtools-1.4.0.tgz#a92e8c2a8c58bad6f3dd643e1cd0243e11969c10"
+  integrity sha512-qYp1dtkxZziiCsUTSf5OjJgSGorGKQIsj132bHqvQNST/gKvucB4BaUGiassBJ5yhgykk5USxSb3YjGRNAsw1A==
 
 nativescript-vue-template-compiler@~2.4.0:
   version "2.4.0"

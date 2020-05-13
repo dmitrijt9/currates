@@ -3,12 +3,17 @@
     <ActionBar title="Convert">
         <ActionItem
             ios.systemIcon="13" ios.position="right"
-            android.systemIcon="ic_popup_sync" android.position="actionBar" 
+            android.systemIcon="ic_popup_sync" android.position="actionBar"
         />
     </ActionBar>
     <StackLayout>
-        <exchange-pair />
-        <exchange-input class="m-x-16" />
+        <exchange-pair
+            v-model="selectedCurrencies"
+        />
+        <exchange-input
+            class="m-x-16"
+            @input="(v) => enteredValue = parseInt(v)"
+        />
         <!-- Convert action buttons -->
         <FlexboxLayout flexDirection="column" alignItems="center" justifyContent="space-between" margin="16">
             <Button text="Convert" fontSize="20" paddingLeft="20" paddingRight="20" class="-primary -rounded-lg" @tap="computeExchangeRate"/>
@@ -17,8 +22,12 @@
 
         <StackLayout class="hr m-10"></StackLayout>
 
-        <transition name="bounce">
-            <exchange-result class="m-x-30" v-if="isResult" conversionResult="34" />
+        <transition name="fade">
+            <exchange-result
+                class="m-x-30"
+                v-if="isResult"
+                ref="exchangeResult"
+                :exchangeResult="exchangeResult" />
         </transition>
     </StackLayout>
 </Page>
@@ -30,7 +39,6 @@
     import exchangeResult from '../components/exchangeResult'
     var enums = require("tns-core-modules/ui/enums");
 
-
     export default {
         components: {
             exchangePair,
@@ -39,9 +47,14 @@
         },
         data() {
             return {
-                conversionResult: 0,
-                enteredValue: 0,
-                isResult: false
+                exchangeResult: 0,
+                enteredValue: 1,
+                isResult: false,
+                selectedCurrencies: {
+                    base: 'EUR',
+                    target: 'CZK'
+                },
+                debug: null
             }
         },
         computed: {
@@ -50,26 +63,24 @@
             }
         },
         methods: {
-            computeExchangeRate() {
-                if (this.enteredValue === null) {
-                    this.enteredValue = 1
+            async computeExchangeRate() {
+                const { success, error, rates } =
+                    await this.$http
+                        .getJSON(
+                            `${this.config.api.baseUrl}latest?access_key=${this.config.api.key}&base=${this.selectedCurrencies.base}&symbols=${this.selectedCurrencies.target}`
+                        )
+
+                if (success) {
+                    this.exchangeResult = Math.round(((this.enteredValue * rates[this.selectedCurrencies.target]) + Number.EPSILON) * 100) / 100
+                    this.isResult = true
+                } else {
+                    this.debug = error
+                    alert({
+                        title: "Conversion failed",
+                        message: "We are not able to convert currencies. Please check your connection and try again.",
+                        okButtonText: "OK"
+                    })
                 }
-
-                this.isResult = true
-
-                // const queryString =
-                //     this.symbols[this.selectedSymbolBase] === 'EUR'
-                //         ? this.symbols[this.selectedSymbolTo]
-                //         : `${this.symbols[this.selectedSymbolBase]},${this.symbols[this.selectedSymbolTo]}`
-
-                // this.$http.getJSON(`${this.config.api.baseUrl}symbols=${queryString}`).then(r => {
-                //     this.conversionResult = parseInt(this.enteredValue) * parseInt(r.rates[this.symbols[this.selectedSymbolTo]])
-                //     this.$refs.conversionResult.animate({
-                //         translate: { x: 0, y: 100},
-                //         duration: 1000,
-                //         curve: enums.AnimationCurve.easeIn
-                //     })
-                // })
             }
         }
     }

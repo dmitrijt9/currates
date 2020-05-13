@@ -1,5 +1,6 @@
 import Vue from 'nativescript-vue';
 import Vuex from 'vuex';
+import config from '~/config';
 
 Vue.use(Vuex);
 
@@ -8,50 +9,19 @@ const debug = process.env.NODE_ENV !== 'production';
 const store = new Vuex.Store({
     state: {
         // array of currency symbols
-        symbols: [
-            "EUR",
-            "CAD",
-            "HKD",
-            "ISK",
-            "PHP",
-            "DKK",
-            "HUF",
-            "CZK",
-            "AUD",
-            "RON",
-            "SEK",
-            "IDR",
-            "INR",
-            "BRL",
-            "RUB",
-            "HRK",
-            "JPY",
-            "THB",
-            "CHF",
-            "SGD",
-            "PLN",
-            "BGN",
-            "TRY",
-            "CNY",
-            "NOK",
-            "NZD",
-            "ZAR",
-            "USD",
-            "MXN",
-            "ILS",
-            "GBP",
-            "KRW",
-            "MYR"
-        ],
-        // array of ongoing tasks. We keep track of the tasks to show/hide the
-        // activity indicator in the groceries page.
-        processingTasks: []
+        symbols: null,
+        config
     },
     mutations: {
-
+        symbols(state, symbols) {
+            state.symbols = symbols
+        }
     },
     actions: {
-
+        async fetchSymbols({ commit }) {
+            const { success, symbols } = await this._vm.$http.getJSON(`${config.api.baseUrl}symbols?access_key=${config.api.key}`)
+            commit('symbols', success ? symbols : [])
+        }
     },
     getters: {
         symbols(state) {

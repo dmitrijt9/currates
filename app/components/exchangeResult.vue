@@ -1,7 +1,7 @@
 <template>
     <StackLayout class="result-container form">
         <TextField
-            :text="conversionResult"
+            :text="exchangeResult"
             class="result-text"
             editable="false"
             fontSize="24"
@@ -12,8 +12,8 @@
 <script>
 export default {
     props: {
-        conversionResult: {
-            type: String,
+        exchangeResult: {
+            type: Number,
             required: true
         }
     }

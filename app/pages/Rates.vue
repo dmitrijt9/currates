@@ -2,11 +2,11 @@
 <Page>
     <StackLayout>
         <Label text="Common rates" class="h1 text-center p-16"></Label>
-        <ListView for="symbol in symbols" height="100">
-            <v-template>
-                <Label :text="symbol" />
-            </v-template>
-        </ListView>
+<!--        <ListView for="symbol in symbols" height="100">-->
+<!--            <v-template>-->
+<!--                <Label :text="symbol" />-->
+<!--            </v-template>-->
+<!--        </ListView>-->
     </StackLayout>
 </Page>
 </template>
