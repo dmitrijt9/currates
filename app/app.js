@@ -5,11 +5,13 @@ import Rates from "./pages/Rates";
 import Favorite from "./pages/Favorite";
 import store from './store';
 import httpModule from "~/plugins/httpModule";
+import database from "~/plugins/database";
 import config from "~/config";
+import symbols from "~/enums/symbols";
 
 Vue.config.silent = false;
 Vue.prototype.config = config
-Vue.use(VueDevtools, { host: '192.168.0.24' })
+Vue.use(VueDevtools, { host: '192.168.0.145' })
 new Vue({
     template: `
 
@@ -52,13 +54,22 @@ new Vue({
     },
     store,
     httpModule,
+    database,
     config,
     mixins: [
         {
             async created() {
-                // todo check connection and load from local db if not connected
                 // fetch all convert symbols
-                await this.$store.dispatch('fetchSymbols')
+                this.$store.commit('symbols', symbols)
+
+                // start monitoring connection
+                await this.$store.dispatch('monitorNetworkStart')
+
+                await this.$store.dispatch('loadEurRatesFromDb')
+            },
+            async beforeDestroy() {
+                // stop monitoring connection
+                await this.$store.dispatch('monitorNetworkStop')
             }
         }
     ]

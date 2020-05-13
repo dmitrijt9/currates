@@ -1,6 +1,6 @@
 {
   "nativescript": {
-    "id": "org.nativescript.currencyconverter",
+    "id": "org.nativescript.currates",
     "tns-ios": {
       "version": "6.4.0"
     },
@@ -21,6 +21,7 @@
     "@nativescript/theme": "~2.3.0",
     "@vue/devtools": "^5.3.3",
     "dotenv": "^8.2.0",
+    "nativescript-couchbase-plugin": "^0.9.6",
     "nativescript-socketio": "^3.3.1",
     "nativescript-toasty": "^3.0.0-alpha.2",
     "nativescript-vue": "~2.4.0",

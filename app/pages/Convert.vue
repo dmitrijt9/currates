@@ -17,7 +17,7 @@
         <!-- Convert action buttons -->
         <FlexboxLayout flexDirection="column" alignItems="center" justifyContent="space-between" margin="16">
             <Button text="Convert" fontSize="20" paddingLeft="20" paddingRight="20" class="-primary -rounded-lg" @tap="computeExchangeRate"/>
-            <Button text.decode="&#xf004;" class="-outline -rounded-lg fas t-18" color="white" @tap="computeExchangeRate" />
+            <Button text.decode="&#xf004;" class="-outline -rounded-lg fas t-18" color="white" @tap="addToFavorites" />
         </FlexboxLayout>
 
         <StackLayout class="hr m-10"></StackLayout>
@@ -53,35 +53,54 @@
                 selectedCurrencies: {
                     base: 'EUR',
                     target: 'CZK'
-                },
-                debug: null
+                }
             }
         },
         computed: {
-            symbols() {
-                return this.$store.getters.symbols
+            connected() {
+                return this.$store.getters.connectionType !== 'none'
+            },
+            eurRates() {
+                return this.$store.state.eurRates.rates
+            },
+            isCurrentDateSameAsFetchedRatesDate() {
+                return new Date().setHours(0,0,0,0) === new Date(this.$store.state.eurRates.date).setHours(0,0,0,0)
             }
         },
         methods: {
             async computeExchangeRate() {
                 this.isResult = false
-                const { success, error, rates } =
-                    await this.$http
-                        .getJSON(
-                            `${this.config.api.baseUrl}latest?access_key=${this.config.api.key}&base=${this.selectedCurrencies.base}&symbols=${this.selectedCurrencies.target}`
-                        )
-
-                if (success) {
-                    this.exchangeResult = Math.round(((this.enteredValue * rates[this.selectedCurrencies.target]) + Number.EPSILON) * 100) / 100
-                    this.isResult = true
+                if (this.connected) {
+                    if (!this.eurRates || !this.isCurrentDateSameAsFetchedRatesDate)
+                    await this.$store.dispatch('fetchEurRates')
                 } else {
-                    this.debug = error
-                    alert({
-                        title: "Conversion failed",
-                        message: "We are not able to convert currencies. Please check your connection and try again.",
-                        okButtonText: "OK"
-                    })
+                    if (!this.eurRates) {
+                        alert({
+                            title: "Please, connect to an internet",
+                            message: "We need to load an exchange data before first conversion. Then the app will work offline and download latest rates only when connected.",
+                            okButtonText: "OK"
+                        })
+                        return
+                    }
                 }
+
+                if (this.selectedCurrencies.base === 'EUR') {
+                    this.exchangeResult = Math.round(((this.enteredValue * this.eurRates[this.selectedCurrencies.target]) + Number.EPSILON) * 100) / 100
+                } else if (this.selectedCurrencies.target === 'EUR') {
+                    this.exchangeResult = Math.round(((this.enteredValue / this.eurRates[this.selectedCurrencies.base]) + Number.EPSILON) * 100) / 100
+                } else {
+                    const inEur = this.enteredValue / this.eurRates[this.selectedCurrencies.base]
+                    this.exchangeResult = Math.round(((inEur * this.eurRates[this.selectedCurrencies.target]) + Number.EPSILON) * 100) / 100
+                }
+
+                this.isResult = true
+            },
+            addToFavorites() {
+                alert({
+                    title: "Add to favorites?",
+                    message: "Add this pair to favorites?",
+                    okButtonText: "OK"
+                })
             }
         }
     }
