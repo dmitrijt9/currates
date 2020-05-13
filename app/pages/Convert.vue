@@ -22,7 +22,7 @@
 
         <StackLayout class="hr m-10"></StackLayout>
 
-        <transition name="fade">
+        <transition name="bounce">
             <exchange-result
                 class="m-x-30"
                 v-if="isResult"
@@ -64,6 +64,7 @@
         },
         methods: {
             async computeExchangeRate() {
+                this.isResult = false
                 const { success, error, rates } =
                     await this.$http
                         .getJSON(

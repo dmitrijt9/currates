@@ -23,37 +23,19 @@ $border-radius-xl: 100%;
 }
 
 .bounce-enter-active {
-    animation-name: bounce-in;
-    animation-duration: 0.5s;
-    animation-fill-mode: forwards;
-    animation-timing-function: ease-in-out;
+    animation: bounce-in .5s;
 }
-
 .bounce-leave-active {
-    animation-name: bounce-in;
-    animation-duration: 0.25s;
-    animation-fill-mode: forwards;
-    animation-direction: reverse;
-    animation-timing-function: ease-in-out;
+    animation: bounce-in .5s reverse;
 }
-
 @keyframes bounce-in {
     0% {
         transform: scale(0);
     }
-
     50% {
         transform: scale(1.2);
     }
-
     100% {
         transform: scale(1);
     }
-}
-
-.fade-enter-active, .fade-leave-active {
-    transition: opacity .5s;
-}
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-    opacity: 0;
 }
