@@ -55,6 +55,6 @@ export default {
             this.value.base = this.value.target
             this.value.target = tmp
         }
-    },
+    }
 }
 </script>

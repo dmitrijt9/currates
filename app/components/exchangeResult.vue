@@ -28,7 +28,7 @@ export default {
         border-radius: 50%;
 
         .result-text {
-            border-width: 1;
+            /*border-width: 1;*/
             border-color: transparent;
         }
     }
