@@ -44,7 +44,15 @@ const store = new Vuex.Store({
             }
         },
         favourites(state, favourites) {
-          state.favourites = favourites
+            state.favourites = [];
+            for(let i = 0; i < favourites.length; i++) {
+                state.favourites.push({
+                    id: favourites[i][0],
+                    base: favourites[i][1],
+                    target: favourites[i][2]
+                });
+            }
+
         },
         debug(state, debug) {
             state.debug = debug
@@ -76,7 +84,8 @@ const store = new Vuex.Store({
         initDB(context) {
             const statement1 = 'CREATE TABLE IF NOT EXISTS eurRates (id INTEGER PRIMARY KEY AUTOINCREMENT, symbol TEXT, rate TEXT)'
             const statement2 = 'CREATE TABLE IF NOT EXISTS ratesDate (id INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT)'
-            const toExecute = [statement1, statement2];
+            const statement3 = 'CREATE TABLE IF NOT EXISTS favourites (id INTEGER PRIMARY KEY AUTOINCREMENT, base TEXT, target TEXT)'
+            const toExecute = [statement1, statement2,statement3];
             (new Sqlite("currates-db")).then(db => {
                 toExecute.forEach(st => {
                     db.execSQL(st)
@@ -119,79 +128,31 @@ const store = new Vuex.Store({
             }, error => {
                 console.error("Load eur rates ERROR", error);
             });
+        },
+        async addToFavourites({commit, state}, { base, target }) {
+            try {
+                const pair = state.favourites.find(f => f.base === base && f.target === target)
+                if (!pair) {
+                    await state.database.execSQL("INSERT INTO favourites (base, target) VALUES (?,?)", [base, target])
+                }
+            } catch (e) {
+                console.error(e.message)
+            }
+        },
+        async deleteFavourite({commit, state}, id) {
+            try {
+                await state.database.execSQL(`DELETE FROM favourites WHERE id=${id}`)
+            } catch (e) {
+                console.error(e.message)
+            }
+        },
+        loadFavouritesFromDb({ commit, state }) {
+            state.database.all("SELECT * FROM favourites").then(result => {
+                commit("favourites", result);
+            }, error => {
+                console.error("Load favourites ERROR", error);
+            });
         }
-        // async fetchEurRates({ commit, state }) {
-        //     const { success, error, rates, date } =
-        //         await this._vm.$http
-        //             .getJSON(
-        //                 `${config.api.baseUrl}latest?access_key=${config.api.key}`
-        //             )
-        //
-        //     if (success) {
-        //         if (state.eurRates === null || state.eurRates === undefined) {
-        //             this._vm.$database.createDocument({
-        //                 name: "eurRates",
-        //                 date: date,
-        //                 rates: rates
-        //             })
-        //         } else {
-        //             this._vm.$database.updateDocument(state.eurRates.id, {
-        //                 name: "eurRates",
-        //                 date: date,
-        //                 rates: rates
-        //             })
-        //         }
-        //         commit('eurRates', {
-        //             name: "eurRates",
-        //             date: date,
-        //             rates: rates
-        //         })
-        //     } else {
-        //         commit('debug', error)
-        //     }
-        // },
-        // loadEurRatesFromDb({ commit }) {
-        //     const r = this._vm.$database.query({
-        //         select: [],
-        //         where: [{
-        //             name: 'eurRates'
-        //         }]
-        //     })
-        //     if (r && r[0].name === 'eurRates') {
-        //         commit('eurRates', r[0])
-        //     }
-        //
-        // },
-        // addToFavourites({commit, state}, data) {
-        //     this._vm.$database.inBatch(() => {
-        //         // if (state.favourites === null || state.favourites === undefined) {
-        //         if (true) {
-        //             this._vm.$database.createDocument( {
-        //                 name: "favourites",
-        //                 pairs: [data]
-        //             })
-        //         } else {
-        //             state.favourites.pairs.push(data)
-        //
-        //             this._vm.$database.updateDocument(state.favourites.id, {
-        //                 name: "favourites",
-        //                 pairs: state.favourites.pairs
-        //             })
-        //         }
-        //     })
-        // },
-        // fetchFavourites({ commit }) {
-        //     const favourites = this._vm.$database.query({
-        //         select: [],
-        //         where: {
-        //             name: "favourites"
-        //         }
-        //     })
-        //
-        //     if (favourites && favourites[0].name === 'favourites') {
-        //         commit('favourites', favourites[0])
-        //     }
-        // }
     },
     getters: {
         symbols(state) {

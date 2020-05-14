@@ -4029,6 +4029,11 @@ nativescript-sqlite@^2.6.3:
   resolved "https://registry.yarnpkg.com/nativescript-sqlite/-/nativescript-sqlite-2.6.3.tgz#8128e43b0c0e92821e16bc1b272745f808723957"
   integrity sha512-UkZdRTdX3KI3QXcLd4e/a0x1udXgF4egTYOYqPq3TKcTg6tlzjEesRPeL7F061d6MQVRol/i1szZErEMPr2BBw==
 
+nativescript-toast@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/nativescript-toast/-/nativescript-toast-2.0.0.tgz#ef3245d0c35d50ca10da4554d1459356a99687aa"
+  integrity sha512-xqyNfFS894oGfrEVO7CjpioAQLiLNNcd77Euq9XIUTf1U3W0PsIgAJbLP7+kkVGIJxdLtlBkbcQ4wDmf2DCi1w==
+
 nativescript-toasty@^3.0.0-alpha.2:
   version "3.0.0-alpha.2"
   resolved "https://registry.yarnpkg.com/nativescript-toasty/-/nativescript-toasty-3.0.0-alpha.2.tgz#3fcc1328e944f6671b88752ff41e4de68d244647"

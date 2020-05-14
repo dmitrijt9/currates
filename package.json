@@ -23,6 +23,7 @@
     "dotenv": "^8.2.0",
     "nativescript-socketio": "^3.3.1",
     "nativescript-sqlite": "^2.6.3",
+    "nativescript-toast": "^2.0.0",
     "nativescript-toasty": "^3.0.0-alpha.2",
     "nativescript-vue": "~2.4.0",
     "nativescript-vue-devtools": "^1.4.0",

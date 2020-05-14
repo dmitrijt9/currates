@@ -8,15 +8,17 @@
     </ActionBar>
     <StackLayout>
         <exchange-pair
+            class="exchange-pair"
             v-model="selectedCurrencies"
         />
         <exchange-input
             class="m-x-16"
+            :value="enteredValue"
             @input="(v) => enteredValue = parseInt(v)"
         />
         <!-- Convert action buttons -->
-        <FlexboxLayout flexDirection="column" alignItems="center" justifyContent="space-between" margin="16">
-            <Button text="Convert" fontSize="20" paddingLeft="20" paddingRight="20" class="-primary -rounded-lg" @tap="computeExchangeRate"/>
+        <FlexboxLayout flexDirection="row" alignItems="center" justifyContent="flex-end" margin="16">
+            <Button text="Convert" fontSize="20" paddingLeft="20" paddingRight="20" class="convert-button -primary -rounded-lg" @tap="computeExchangeRate"/>
             <Button text.decode="&#xf004;" class="-outline -rounded-lg fas t-18" color="white" @tap="addToFavorites" />
         </FlexboxLayout>
 
@@ -24,11 +26,17 @@
 
         <transition name="bounce">
             <exchange-result
-                class="m-x-30"
-                v-if="isResult"
+                class="exchange-result m-x-30"
+                v-show="isResult"
                 ref="exchangeResult"
-                :exchangeResult="exchangeResult" />
+                :exchangeResult="exchangeResult"
+            />
         </transition>
+        <StackLayout class="favourites-list m-y-16 m-x-24" backgroundColor="#4ebaaa" borderRadius="50%">
+            <Label text="Pick from your favourites" horizontalAlignment="center" :lineHeight="6" textWrap="false" padding="16" />
+            <FavouritesList :items="favourites" :on-tap="applyFavouritePair" />
+        </StackLayout>
+
     </StackLayout>
 </Page>
 </template>
@@ -37,10 +45,11 @@
     import exchangePair from '../components/exchangePair'
     import exchangeInput from '../components/exchangeInput'
     import exchangeResult from '../components/exchangeResult'
-    var enums = require("tns-core-modules/ui/enums");
+    import FavouritesList from "~/components/favouritesList";
 
     export default {
         components: {
+            FavouritesList,
             exchangePair,
             exchangeInput,
             exchangeResult
@@ -67,6 +76,9 @@
                 return this.$store.state.eurRates
                     ? new Date().setHours(0,0,0,0) === new Date(this.$store.state.ratesDate).setHours(0,0,0,0)
                     : false
+            },
+            favourites() {
+                return this.$store.state.favourites
             }
         },
         methods: {
@@ -109,9 +121,14 @@
                     // result argument is boolean
                     if (result) {
                         await this.$store.dispatch('addToFavourites', {...this.selectedCurrencies})
-                        await this.$store.dispatch('fetchFavourites')
+                        await this.$store.dispatch('loadFavouritesFromDb')
+                        this.$toast.makeText(`${this.selectedCurrencies.base} -> ${this.selectedCurrencies.target} added to favourites`).show()
                     }
                 });
+            },
+            applyFavouritePair({ item }) {
+                this.selectedCurrencies.base = item.base
+                this.selectedCurrencies.target = item.target
             }
         }
     }
@@ -132,9 +149,13 @@
         }
     }
 
-    .currency-select-btn {
-        color: red;
-        background-color: $complementary;
+    .exchange-pair, .convert-button, .exchange-result {
+        font-weight: 600;
+    }
+
+    .favourites-list {
+        color: black;
+        font-weight: 600;
     }
 
 </style>

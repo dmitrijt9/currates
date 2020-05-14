@@ -7,6 +7,7 @@ import store from './store';
 import httpModule from "~/plugins/httpModule";
 import config from "~/config";
 import symbols from "~/enums/symbols";
+import Toast from "~/plugins/toast";
 
 Vue.config.silent = false;
 Vue.prototype.config = config
@@ -53,6 +54,7 @@ new Vue({
     },
     store,
     httpModule,
+    Toast,
     config,
     mixins: [
         {
@@ -67,6 +69,7 @@ new Vue({
                 this.$store.commit('symbols', symbols)
 
                 await this.$store.dispatch('loadEurRatesFromDb')
+                await this.$store.dispatch('loadFavouritesFromDb')
             },
             async beforeDestroy() {
                 // stop monitoring connection
