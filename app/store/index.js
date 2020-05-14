@@ -71,8 +71,13 @@ const store = new Vuex.Store({
                         rates: rates
                     })
                 }
+                commit('eurRates', {
+                    name: "eurRates",
+                    date: date,
+                    rates: rates
+                })
             } else {
-                state.debug = error
+                commit('debug', error)
             }
         },
         loadEurRatesFromDb({ commit }) {
@@ -82,6 +87,7 @@ const store = new Vuex.Store({
                     name: 'eurRates'
                 }]
             })
+            commit('debug', r)
             if (r) {
                 commit('eurRates', r[0])
             }

@@ -61,10 +61,12 @@
                 return this.$store.getters.connectionType !== 'none'
             },
             eurRates() {
-                return this.$store.state.eurRates.rates
+                return this.$store.state.eurRates ? this.$store.state.eurRates.rates : null
             },
             isCurrentDateSameAsFetchedRatesDate() {
-                return new Date().setHours(0,0,0,0) === new Date(this.$store.state.eurRates.date).setHours(0,0,0,0)
+                return this.$store.state.eurRates
+                    ? new Date().setHours(0,0,0,0) === new Date(this.$store.state.eurRates.date).setHours(0,0,0,0)
+                    : false
             }
         },
         methods: {
