@@ -61,11 +61,11 @@
                 return this.$store.getters.connectionType !== 'none'
             },
             eurRates() {
-                return this.$store.state.eurRates ? this.$store.state.eurRates.rates : null
+                return this.$store.state.eurRates ? this.$store.state.eurRates : null
             },
             isCurrentDateSameAsFetchedRatesDate() {
                 return this.$store.state.eurRates
-                    ? new Date().setHours(0,0,0,0) === new Date(this.$store.state.eurRates.date).setHours(0,0,0,0)
+                    ? new Date().setHours(0,0,0,0) === new Date(this.$store.state.ratesDate).setHours(0,0,0,0)
                     : false
             }
         },
@@ -73,8 +73,10 @@
             async computeExchangeRate() {
                 this.isResult = false
                 if (this.connected) {
-                    if (!this.eurRates || !this.isCurrentDateSameAsFetchedRatesDate)
-                    await this.$store.dispatch('fetchEurRates')
+                    if (!this.eurRates || !this.isCurrentDateSameAsFetchedRatesDate) {
+                        await this.$store.dispatch('fetchEurRates')
+                        await this.$store.dispatch('loadEurRatesFromDb')
+                    }
                 } else {
                     if (!this.eurRates) {
                         alert({
@@ -87,22 +89,29 @@
                 }
 
                 if (this.selectedCurrencies.base === 'EUR') {
-                    this.exchangeResult = Math.round(((this.enteredValue * this.eurRates[this.selectedCurrencies.target]) + Number.EPSILON) * 100) / 100
+                    this.exchangeResult = Math.round(((this.enteredValue * parseFloat(this.eurRates.find(r => r.symbol === this.selectedCurrencies.target).rate)) + Number.EPSILON) * 100) / 100
                 } else if (this.selectedCurrencies.target === 'EUR') {
-                    this.exchangeResult = Math.round(((this.enteredValue / this.eurRates[this.selectedCurrencies.base]) + Number.EPSILON) * 100) / 100
+                    this.exchangeResult = Math.round(((this.enteredValue / parseFloat(this.eurRates.find(r => r.symbol === this.selectedCurrencies.base).rate)) + Number.EPSILON) * 100) / 100
                 } else {
-                    const inEur = this.enteredValue / this.eurRates[this.selectedCurrencies.base]
-                    this.exchangeResult = Math.round(((inEur * this.eurRates[this.selectedCurrencies.target]) + Number.EPSILON) * 100) / 100
+                    const inEur = this.enteredValue / parseFloat(this.eurRates.find(r => r.symbol === this.selectedCurrencies.base).rate)
+                    this.exchangeResult = Math.round(((inEur * parseFloat(this.eurRates.find(r => r.symbol === this.selectedCurrencies.target).rate)) + Number.EPSILON) * 100) / 100
                 }
-
                 this.isResult = true
             },
             addToFavorites() {
-                alert({
+                confirm({
                     title: "Add to favorites?",
-                    message: "Add this pair to favorites?",
-                    okButtonText: "OK"
-                })
+                    message: `Add ${this.selectedCurrencies.base} -> ${this.selectedCurrencies.target} to favourites?`,
+                    okButtonText: "Yes",
+                    cancelButtonText: "No",
+                    neutralButtonText: 'Cancel'
+                }).then(async (result) => {
+                    // result argument is boolean
+                    if (result) {
+                        await this.$store.dispatch('addToFavourites', {...this.selectedCurrencies})
+                        await this.$store.dispatch('fetchFavourites')
+                    }
+                });
             }
         }
     }

@@ -5,7 +5,6 @@ import Rates from "./pages/Rates";
 import Favorite from "./pages/Favorite";
 import store from './store';
 import httpModule from "~/plugins/httpModule";
-import database from "~/plugins/database";
 import config from "~/config";
 import symbols from "~/enums/symbols";
 
@@ -54,16 +53,18 @@ new Vue({
     },
     store,
     httpModule,
-    database,
     config,
     mixins: [
         {
             async created() {
-                // fetch all convert symbols
-                this.$store.commit('symbols', symbols)
+                await this.$store.dispatch('initDB')
+
 
                 // start monitoring connection
                 await this.$store.dispatch('monitorNetworkStart')
+
+                // fetch all convert symbols
+                this.$store.commit('symbols', symbols)
 
                 await this.$store.dispatch('loadEurRatesFromDb')
             },

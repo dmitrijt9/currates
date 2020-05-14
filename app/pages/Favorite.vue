@@ -12,6 +12,13 @@
 
 <script>
     export default {
-
+        async created() {
+            // await this.$store.dispatch('fetchFavourites')
+        },
+        computed: {
+            favourites() {
+                return this.$store.state.favourites ? this.$store.state.favourites.pairs : []
+            }
+        }
     }
 </script>

@@ -3967,11 +3967,6 @@ nanomatch@^1.2.9:
     snapdragon "^0.8.1"
     to-regex "^3.0.1"
 
-nativescript-couchbase-plugin@^0.9.6:
-  version "0.9.6"
-  resolved "https://registry.yarnpkg.com/nativescript-couchbase-plugin/-/nativescript-couchbase-plugin-0.9.6.tgz#597305a59b35b20971a4cacd432764b8a30d49d1"
-  integrity sha512-kMA9KHQX82TFaGnGUhY94KLOLss4pb5QmghgoEdu1sLwd94I/f1MQ+kHWbuBOdFmdQJw5oCK+Sey+A22Nd5jgA==
-
 nativescript-dev-webpack@~1.5.0:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/nativescript-dev-webpack/-/nativescript-dev-webpack-1.5.1.tgz#1ad4492bbafe94e183a222a3d5654ca98a1bedae"
@@ -4028,6 +4023,11 @@ nativescript-socketio@^3.3.1:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/nativescript-socketio/-/nativescript-socketio-3.3.1.tgz#816089e18a5d54cb8ed3a133b91a89d0d5724203"
   integrity sha512-D6MbMJAy9wjv62ga+oieIv7gxjcGA0CPGORN0VeC31WL/bdZltulu7RMPWY9uAck/4YSDIPoYVY17WGH9AXsIw==
+
+nativescript-sqlite@^2.6.3:
+  version "2.6.3"
+  resolved "https://registry.yarnpkg.com/nativescript-sqlite/-/nativescript-sqlite-2.6.3.tgz#8128e43b0c0e92821e16bc1b272745f808723957"
+  integrity sha512-UkZdRTdX3KI3QXcLd4e/a0x1udXgF4egTYOYqPq3TKcTg6tlzjEesRPeL7F061d6MQVRol/i1szZErEMPr2BBw==
 
 nativescript-toasty@^3.0.0-alpha.2:
   version "3.0.0-alpha.2"

@@ -28,7 +28,10 @@ export default {
         border-radius: 50%;
 
         .result-text {
-            /*border-width: 1;*/
+            text-align: center;
+            vertical-align: center;
+            color: black;
+            border-width: 1;
             border-color: transparent;
         }
     }
