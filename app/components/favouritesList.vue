@@ -1,5 +1,5 @@
 <template>
-    <ListView v-else for="fav in items" ref="favouritesList" height="100%" @itemTap="onTap">
+    <ListView v-else for="fav in items" ref="favouritesList" height="100%" width="100%" @itemTap="onTap" @loaded="fixLV">
         <v-template>
             <StackLayout orientation="horizontal">
                 <Label :text="fav.base" width="33.3%" class="favourite-symbol m-l-24" />
@@ -20,6 +20,11 @@
             items: {
                 type: Array,
                 required: true
+            }
+        },
+        methods: {
+            fixLV() {
+                this.$refs.favouritesList.nativeView.android.setVerticalScrollBarEnabled(false);
             }
         }
     }

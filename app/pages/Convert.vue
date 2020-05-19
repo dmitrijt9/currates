@@ -32,11 +32,10 @@
                 :exchangeResult="exchangeResult"
             />
         </transition>
-        <StackLayout class="favourites-list m-y-16 m-x-24" backgroundColor="#4ebaaa" borderRadius="50%">
+        <StackLayout class="favourites-list m-y-16 m-x-30" backgroundColor="#4ebaaa" borderRadius="50%">
             <Label text="Pick from your favourites" horizontalAlignment="center" :lineHeight="6" textWrap="false" padding="16" />
             <FavouritesList :items="favourites" :on-tap="applyFavouritePair" />
         </StackLayout>
-
     </StackLayout>
 </Page>
 </template>
@@ -156,6 +155,7 @@
     .favourites-list {
         color: black;
         font-weight: 600;
+        overflow: hidden;
     }
 
 </style>
