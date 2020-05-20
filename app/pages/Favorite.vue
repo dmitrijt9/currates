@@ -1,10 +1,10 @@
 <template>
 <Page @loaded="appLoaded">
     <ActionBar title="Favourites">
-        <ActionItem
-            ios.systemIcon="13" ios.position="right"
-            android.systemIcon="ic_popup_sync" android.position="actionBar"
-        />
+        <!--        <ActionItem-->
+        <!--            ios.systemIcon="13" ios.position="right"-->
+        <!--            android.systemIcon="ic_notification" android.position="actionBar"-->
+        <!--        />-->
     </ActionBar>
     <AbsoluteLayout ref="rootLayout">
         <StackLayout v-if="!favourites">
@@ -17,14 +17,13 @@
         <FavouritesList :items="favourites" :on-tap="handleFavouriteTap" />
 
         <StackLayout left="0" top="0" height="100%" width="100%" class="backdrop" :class="classBackdrop" />
-        <exchange-pair
-            v-if="fabActive"
-            v-model="selectedCurrencies"
-            height="20%"
-            marginTop="50%"
-            class="exchange-pair-dialog"
-            :class="classExchangePair"
-        />
+
+            <exchange-pair
+                v-if="fabActive"
+                v-model="selectedCurrencies"
+                class="exchange-pair-dialog"
+                :class="classExchangePair"
+            />
         <AbsoluteLayout marginTop="78%" marginLeft="79%">
             <Button
                 v-if="fabActive"
@@ -119,6 +118,8 @@
     .exchange-pair-dialog {
         background-color: rgba(255, 255, 255, 1);
         color: black;
+        width: 100%;
+        margin-top: 50%;
     }
 
     .backdrop {

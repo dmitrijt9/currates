@@ -70,6 +70,7 @@ new Vue({
 
                 await this.$store.dispatch('loadEurRatesFromDb')
                 await this.$store.dispatch('loadFavouritesFromDb')
+                await this.$store.dispatch('checkConnectionAndFetchedRates')
             },
             async beforeDestroy() {
                 // stop monitoring connection

@@ -2,6 +2,7 @@
 <Page>
     <ActionBar title="Convert">
         <ActionItem
+            @tap="refetchEurRates"
             ios.systemIcon="13" ios.position="right"
             android.systemIcon="ic_popup_sync" android.position="actionBar"
         />
@@ -83,21 +84,6 @@
         methods: {
             async computeExchangeRate() {
                 this.isResult = false
-                if (this.connected) {
-                    if (!this.eurRates || !this.isCurrentDateSameAsFetchedRatesDate) {
-                        await this.$store.dispatch('fetchEurRates')
-                        await this.$store.dispatch('loadEurRatesFromDb')
-                    }
-                } else {
-                    if (!this.eurRates) {
-                        alert({
-                            title: "Please, connect to an internet",
-                            message: "We need to load an exchange data before first conversion. Then the app will work offline and download latest rates only when connected.",
-                            okButtonText: "OK"
-                        })
-                        return
-                    }
-                }
 
                 if (this.selectedCurrencies.base === 'EUR') {
                     this.exchangeResult = Math.round(((this.enteredValue * parseFloat(this.eurRates.find(r => r.symbol === this.selectedCurrencies.target).rate)) + Number.EPSILON) * 100) / 100
@@ -128,6 +114,18 @@
             applyFavouritePair({ item }) {
                 this.selectedCurrencies.base = item.base
                 this.selectedCurrencies.target = item.target
+            },
+            async refetchEurRates() {
+                if (!this.isCurrentDateSameAsFetchedRatesDate) {
+                    if (this.connected) {
+                        await this.$store.dispatch('fetchEurRates')
+                        await this.$store.dispatch('loadEurRatesFromDb')
+                    } else {
+                        this.$toast.makeText(`Please connect to receive latest exchange rates.`).show()
+                    }
+                } else {
+                    this.$toast.makeText(`Latest exchange rates already fetched.`).show()
+                }
             }
         }
     }

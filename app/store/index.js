@@ -152,6 +152,26 @@ const store = new Vuex.Store({
             }, error => {
                 console.error("Load favourites ERROR", error);
             });
+        },
+        /**
+         * If app doesn't have any exchange rates data and is not connected to the internet, then show message to the user to connect
+         * @returns {Promise<void>}
+         */
+        async checkConnectionAndFetchedRates({ dispatch, state, getters }) {
+            if (getters.connected) {
+                if (!state.eurRates || !getters.isCurrentDateSameAsFetchedRatesDate) {
+                    await dispatch('fetchEurRates')
+                    await dispatch('loadEurRatesFromDb')
+                }
+            } else {
+                if (!state.eurRates) {
+                    alert({
+                        title: "Please, connect to an internet",
+                        message: "We need to load an exchange data before first conversion. Then the app will work offline and download latest rates only when connected.",
+                        okButtonText: "OK"
+                    })
+                }
+            }
         }
     },
     getters: {
@@ -160,6 +180,14 @@ const store = new Vuex.Store({
         },
         connectionType(state) {
             return state.connectionType
+        },
+        isCurrentDateSameAsFetchedRatesDate(state) {
+            return state.eurRates
+                ? new Date().setHours(0,0,0,0) === new Date(state.ratesDate).setHours(0,0,0,0)
+                : false
+        },
+        connected(state) {
+            return state.connectionType !== 'none'
         }
     },
     strict: debug,

@@ -1,5 +1,5 @@
 <template>
-    <ListView v-else for="fav in items" ref="favouritesList" height="100%" width="100%" @itemTap="onTap" @loaded="fixLV">
+    <ListView for="fav in items" ref="favouritesList" height="100%" width="100%" @itemTap="onTap" @loaded="fixLV">
         <v-template>
             <StackLayout orientation="horizontal">
                 <Label :text="fav.base" width="33.3%" class="favourite-symbol m-l-24" />
