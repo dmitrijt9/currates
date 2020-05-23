@@ -1,5 +1,5 @@
 <template>
-    <StackLayout margin="10" backgroundColor="white" height="100%" width="100%">
+    <StackLayout margin="10" backgroundColor="white" height="100%" width="800px">
         <Label text="Select currency" class="t-16 c-black p-y-8" />
         <SearchBar
             class="currency-search"
@@ -9,7 +9,7 @@
             backgroundColor="#4ebaaa"
             textFieldHintColor="white"
         />
-        <FlexboxLayout flexDirection="column" justifyContent="space-between">
+        <FlexboxLayout flexDirection="column" justifyContent="space-between" width="100%">
             <ListView ref="currenciesList" for="currency in searchedCurrencies" @itemTap="selectCurrency" width="100%" height="50%">
                 <v-template>
                     <FlexboxLayout flexDirection="row" alignItems="center" justifyContent="justify-between" width="100%">

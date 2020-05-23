@@ -5,8 +5,7 @@ async function selectCurrency() {
     return await this.$showModal(rateSymbolsDialog, {
         fullscreen: false,
         stretched: true,
-        cancelable: true,
-        animated: true,
+        animated: true
     })
 }
 Vue.prototype.$selectCurrency = selectCurrency
