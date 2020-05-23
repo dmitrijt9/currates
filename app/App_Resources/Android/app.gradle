@@ -13,7 +13,7 @@ android {
   defaultConfig {
     minSdkVersion 19
     generatedDensities = []
-    applicationId = "org.dimot.currates"
+    applicationId = "org.dimot9.currates"
   }
   aaptOptions {
     additionalParameters "--no-version-vectors"
