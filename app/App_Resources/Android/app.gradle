@@ -13,7 +13,7 @@ android {
   defaultConfig {
     minSdkVersion 19
     generatedDensities = []
-    applicationId = "org.nativescript.currates"
+    applicationId = "org.dimot.currates"
   }
   aaptOptions {
     additionalParameters "--no-version-vectors"

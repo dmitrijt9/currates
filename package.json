@@ -1,6 +1,6 @@
 {
   "nativescript": {
-    "id": "org.nativescript.currates",
+    "id": "org.dimot.currates",
     "tns-ios": {
       "version": "6.4.0"
     },

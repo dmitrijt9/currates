@@ -73,7 +73,7 @@ const store = new Vuex.Store({
     },
     actions: {
         monitorNetworkStart({ commit, state, dispatch, getters }) {
-            connectivity.startMonitoring((newConnectionType) => {
+            connectivity.startMonitoring(async (newConnectionType) => {
                 switch (newConnectionType) {
                     case connectivity.connectionType.none:
                         commit('connectionType', 'none')
@@ -84,14 +84,16 @@ const store = new Vuex.Store({
                         break;
                     case connectivity.connectionType.wifi:
                         commit('connectionType', 'wifi')
-                        if (!getters.isCurrentDateSameAsFetchedRatesDate) {
-                            dispatch('fetchEurRates')
+                        if (getters.isCurrentDateSameAsFetchedRatesDate === false) {
+                            await dispatch('fetchEurRates')
+                            await dispatch('loadEurRatesFromDb')
                         }
                         break;
                     case connectivity.connectionType.mobile:
                         commit('connectionType', 'mobile')
-                        if (!getters.isCurrentDateSameAsFetchedRatesDate) {
-                            dispatch('fetchEurRates')
+                        if (getters.isCurrentDateSameAsFetchedRatesDate === false) {
+                            await dispatch('fetchEurRates')
+                            await dispatch('loadEurRatesFromDb')
                         }
                         break;
                 }
