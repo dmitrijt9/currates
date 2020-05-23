@@ -25,7 +25,7 @@
             @input="(v) => enteredValue = parseInt(v)"
         />
         <!-- Convert action buttons -->
-        <FlexboxLayout flexDirection="row" alignItems="center" justifyContent="flex-end" margin="16">
+        <FlexboxLayout flexDirection="row" alignItems="center" justifyContent="flex-end" marginRight="16" marginTop="8" marginBottom="8">
             <Button text="Convert" fontSize="20" paddingLeft="20" paddingRight="20" class="convert-button -primary -rounded-lg" @tap="computeExchangeRate"/>
             <Button text.decode="&#xf004;" class="-outline -rounded-lg fas t-18" @tap="addToFavorites" />
         </FlexboxLayout>
@@ -180,5 +180,4 @@
     .favourites-list {
         color: black;
     }
-
 </style>
