@@ -8,7 +8,7 @@
                 class="fas t-10"
         />
         <ActionItem
-            @tap="refetchEurRates"
+            @tap="loadRatesFromDb"
             ios.position="right"
             icon.decode="font://&#xf021;"
             class="fas t-10"
@@ -27,7 +27,7 @@
         <!-- Convert action buttons -->
         <FlexboxLayout flexDirection="row" alignItems="center" justifyContent="flex-end" margin="16">
             <Button text="Convert" fontSize="20" paddingLeft="20" paddingRight="20" class="convert-button -primary -rounded-lg" @tap="computeExchangeRate"/>
-            <Button text.decode="&#xf004;" class="-outline -rounded-lg fas t-18" color="white" @tap="addToFavorites" />
+            <Button text.decode="&#xf004;" class="-outline -rounded-lg fas t-18" @tap="addToFavorites" />
         </FlexboxLayout>
 
         <StackLayout class="hr m-10"></StackLayout>
@@ -132,6 +132,7 @@
             applyFavouritePair({ item }) {
                 this.selectedCurrencies.base = item.base
                 this.selectedCurrencies.target = item.target
+                this.$toast.makeText(`Favourite pair applied.`).show()
             },
             async refetchEurRates() {
                 if (!this.isCurrentDateSameAsFetchedRatesDate) {
@@ -152,6 +153,9 @@
 
                     this.$toast.makeText(`Base currency set by your location`).show()
                 }
+            },
+            async loadRatesFromDb() {
+                await this.$store.dispatch('loadEurRatesFromDb')
             }
         }
     }

@@ -62,18 +62,15 @@ new Vue({
             async created() {
                 await this.$store.dispatch('initDB')
 
-
                 // start monitoring connection
                 await this.$store.dispatch('monitorNetworkStart')
 
                 // fetch all convert symbols
                 this.$store.commit('symbols', symbols)
-
-                await this.$store.dispatch('loadEurRatesFromDb')
-                await this.$store.dispatch('loadFavouritesFromDb')
             },
             async mounted() {
-                await this.$store.dispatch('checkConnectionAndFetchedRates')
+                await this.$store.dispatch('loadEurRatesFromDb')
+                await this.$store.dispatch('loadFavouritesFromDb')
             },
             async beforeDestroy() {
                 // stop monitoring connection

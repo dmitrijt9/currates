@@ -5,7 +5,7 @@
         class="-border -rounded input"
         hint="Enter value to exchange"
         editable="true"
-        fontSize="24"
+        fontSize="18"
         keyboardType="number"
         returnKeyType="done"
     />

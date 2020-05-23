@@ -72,17 +72,29 @@ const store = new Vuex.Store({
         }
     },
     actions: {
-        monitorNetworkStart({ commit }) {
+        monitorNetworkStart({ commit, state, dispatch, getters }) {
             connectivity.startMonitoring((newConnectionType) => {
                 switch (newConnectionType) {
                     case connectivity.connectionType.none:
                         commit('connectionType', 'none')
+                        if (state.eurRates.length <= 0) {
+                            commit("eurRatesFromFile", eurRates)
+                            commit("ratesDate", ratesDate)
+                            console.log("load from file")
+                        }
                         break;
                     case connectivity.connectionType.wifi:
                         commit('connectionType', 'wifi')
+                        if (!getters.isCurrentDateSameAsFetchedRatesDate) {
+                            dispatch('fetchEurRates')
+                            console.log("fetch new")
+                        }
                         break;
                     case connectivity.connectionType.mobile:
                         commit('connectionType', 'mobile')
+                        if (!getters.isCurrentDateSameAsFetchedRatesDate) {
+                            dispatch('fetchEurRates')
+                        }
                         break;
                 }
             });
@@ -126,9 +138,10 @@ const store = new Vuex.Store({
                 console.error(error)
             }
         },
-        loadEurRatesFromDb({ state, commit }) {
-            state.database.all("SELECT id, symbol, rate FROM eurRates").then(result => {
+        loadEurRatesFromDb({ state, commit, getters }) {
+            state.database.all("SELECT id, symbol, rate FROM eurRates").then(async (result) => {
                 commit("eurRates", result);
+                console.log(result)
             }, error => {
                 console.error("Load eur rates ERROR", error);
             });
@@ -162,24 +175,6 @@ const store = new Vuex.Store({
             }, error => {
                 console.error("Load favourites ERROR", error);
             });
-        },
-        /**
-         * If app doesn't have any exchange rates data and is not connected to the internet, then show message to the user to connect
-         * @returns {Promise<void>}
-         */
-        async checkConnectionAndFetchedRates({ dispatch, state, getters, commit }) {
-            if (getters.connected) {
-                if (!state.eurRates || !getters.isCurrentDateSameAsFetchedRatesDate) {
-                    await dispatch('fetchEurRates')
-                    await dispatch('loadEurRatesFromDb')
-                }
-            } else {
-                if (!state.eurRates || (state.eurRates instanceof Array && state.eurRates.length <= 0)) {
-                    commit('eurRatesFromFile', eurRates)
-                    commit('ratesDate', ratesDate)
-                    this._vm.$toast.makeText(`Connect to the internet to get latest exchange rates`).show()
-                }
-            }
         },
         async getUserLocation({ commit, getters }) {
             if (getters.connected) {

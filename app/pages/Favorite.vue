@@ -6,35 +6,41 @@
         <!--            android.systemIcon="ic_notification" android.position="actionBar"-->
         <!--        />-->
     </ActionBar>
+    <StackLayout v-if="!favourites || favourites.length <= 0" width="100%">
+        <FlexboxLayout height="100%" padding="70" flexDirection="column">
+            <Image src.decode="font://&#xf089;" stretch="none" class="fas t-36" alignSelf="center"/>
+            <Label text="No favourite items yet." class="h3 text-center" margin="20" />
+        </FlexboxLayout>
+    </StackLayout>
     <AbsoluteLayout ref="rootLayout">
-        <StackLayout v-if="!favourites || favourites.length <= 0" width="100%">
-            <FlexboxLayout height="100%" padding="70" flexDirection="column">
-                <Image src.decode="font://&#xf089;" stretch="none" class="fas t-36" alignSelf="center"/>
-                <Label text="No favourite items yet." class="h3 text-center" margin="20" />
-            </FlexboxLayout>
-        </StackLayout>
         <FavouritesList :items="favourites" :on-tap="handleFavouriteTap" />
 
         <StackLayout left="0" top="0" height="100%" width="100%" class="backdrop" :class="classBackdrop" />
 
-            <exchange-pair
+        <exchange-pair
                 v-if="fabActive"
                 v-model="selectedCurrencies"
                 class="exchange-pair-dialog"
                 :class="classExchangePair"
-            />
-        <AbsoluteLayout marginTop="78%" marginLeft="79%">
+        />
+        <AbsoluteLayout v-if="fabActive" marginTop="78%" marginLeft="77%">
             <Button
-                v-if="fabActive"
-                @tap="saveFavourite"
-                text.decode="&#xf004;"
-                class="fas t-18 saveButton"
-                color="#4ebaaa"
-                backgroundColor="white"
+                    @tap="saveFavourite"
+                    text.decode="&#xf004;"
+                    class="fas t-18 saveButton"
+                    color="#4ebaaa"
+                    backgroundColor="white"
+                    top="8"
+                    left="8"
             />
         </AbsoluteLayout>
-        <AbsoluteLayout ref="fabItemPosition" marginTop="87%" marginLeft="78%">
-            <fab-button @tap="fabActive = !fabActive" :is-active="fabActive" />
+        <AbsoluteLayout ref="fabItemPosition" marginTop="87%" marginLeft="75%">
+            <fab-button
+                    @tap="fabActive = !fabActive"
+                    :is-active="fabActive"
+                    top="8"
+                    left="8"
+            />
         </AbsoluteLayout>
     </AbsoluteLayout>
 </Page>
@@ -73,12 +79,12 @@
         },
         methods: {
             appLoaded(args) {
-                let rootLayout = this.$refs.rootLayout.nativeView;
-
-                // Needed to avoid masking child components on Android
-                if (app.android && platform.device.sdkVersion >= "21") {
-                    rootLayout.android.setClipChildren(false);
-                }
+                // let rootLayout = this.$refs.rootLayout.nativeView;
+                //
+                // // Needed to avoid masking child components on Android
+                // if (app.android && platform.device.sdkVersion >= "21") {
+                //     rootLayout.android.setClipChildren(false);
+                // }
             },
             handleFavouriteTap({ item }) {
                 action(`Select action for ${item.base} -> ${item.target}`, "Close", ["Remove"])
@@ -210,5 +216,6 @@
         height: 120px;
         background-color: $accent;
         border-radius: 100%;
+        margin-bottom: 16px;
     }
 </style>

@@ -4,7 +4,7 @@
             :text="exchangeResult"
             class="result-text"
             editable="false"
-            fontSize="24"
+            fontSize="18"
         />
     </StackLayout>
 </template>
@@ -32,6 +32,7 @@ export default {
             vertical-align: center;
             color: black;
             border-width: 1;
+            font-weight: bold;
             border-color: transparent;
         }
     }
