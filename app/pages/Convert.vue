@@ -8,7 +8,7 @@
                 class="fas t-10"
         />
         <ActionItem
-            @tap="loadRatesFromDb"
+            @tap="refetchEurRates"
             ios.position="right"
             icon.decode="font://&#xf021;"
             class="fas t-10"
