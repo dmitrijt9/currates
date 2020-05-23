@@ -37,6 +37,7 @@
                 </FlexboxLayout>
             </v-template>
         </ListView>
+
     </StackLayout>
 </Page>
 </template>
@@ -63,10 +64,10 @@
                     let rate = 0
                     if (this.eurRates && this.eurRates.length > 0) {
                         if (this.selectedBase === 'EUR') {
-                            rate = Math.round((parseFloat(this.eurRates.find(r => r.symbol === k).rate) + Number.EPSILON) * 1000) / 1000
+                            rate = parseFloat(parseFloat(this.eurRates.find(r => r.symbol === k).rate).toFixed(3))
                         } else {
                             const inEur = 1 / parseFloat(this.eurRates.find(r => r.symbol === this.selectedBase).rate)
-                            rate = Math.round(((inEur * parseFloat(this.eurRates.find(r => r.symbol === k).rate)) + Number.EPSILON) * 1000) / 1000
+                            rate = parseFloat((inEur * this.eurRates.find(r => r.symbol === k).rate).toFixed(3))
                         }
                     }
                     return {

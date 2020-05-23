@@ -22,7 +22,7 @@
         <exchange-input
             class="m-x-16"
             :value="enteredValue"
-            @input="(v) => enteredValue = parseInt(v)"
+            @input="(v) => enteredValue = parseFloat(v)"
         />
         <!-- Convert action buttons -->
         <FlexboxLayout flexDirection="row" alignItems="center" justifyContent="flex-end" marginRight="16" marginTop="8" marginBottom="8">
@@ -109,12 +109,12 @@
                 this.isResult = false
 
                 if (this.selectedCurrencies.base === 'EUR') {
-                    this.exchangeResult = Math.round(((this.enteredValue * parseFloat(this.eurRates.find(r => r.symbol === this.selectedCurrencies.target).rate)) + Number.EPSILON) * 100) / 100
+                    this.exchangeResult = parseFloat((this.enteredValue * this.eurRates.find(r => r.symbol === this.selectedCurrencies.target).rate).toFixed(3))
                 } else if (this.selectedCurrencies.target === 'EUR') {
-                    this.exchangeResult = Math.round(((this.enteredValue / parseFloat(this.eurRates.find(r => r.symbol === this.selectedCurrencies.base).rate)) + Number.EPSILON) * 100) / 100
+                    this.exchangeResult = parseFloat((this.enteredValue / this.eurRates.find(r => r.symbol === this.selectedCurrencies.base).rate).toFixed(3))
                 } else {
-                    const inEur = this.enteredValue / parseFloat(this.eurRates.find(r => r.symbol === this.selectedCurrencies.base).rate)
-                    this.exchangeResult = Math.round(((inEur * parseFloat(this.eurRates.find(r => r.symbol === this.selectedCurrencies.target).rate)) + Number.EPSILON) * 100) / 100
+                    const inEur = parseFloat(this.enteredValue / this.eurRates.find(r => r.symbol === this.selectedCurrencies.base).rate)
+                    this.exchangeResult = parseFloat((inEur * this.eurRates.find(r => r.symbol === this.selectedCurrencies.target).rate).toFixed(3))
                 }
                 this.isResult = true
             },
@@ -123,7 +123,6 @@
                     title: "Add to favorites?",
                     message: `Add ${this.selectedCurrencies.base} -> ${this.selectedCurrencies.target} to favourites?`,
                     okButtonText: "Yes",
-                    cancelButtonText: "No",
                     neutralButtonText: 'Cancel'
                 }).then(async (result) => {
                     // result argument is boolean

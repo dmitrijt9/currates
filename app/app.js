@@ -10,7 +10,7 @@ import symbols from "~/enums/symbols";
 import Toast from "~/plugins/toast";
 import selectCurrency from "~/plugins/currencySelectDialog";
 
-// Vue.use(VueDevtools, { host: '192.168.0.145' })
+Vue.use(VueDevtools, { host: '192.168.0.145' })
 Vue.config.silent = false;
 Vue.prototype.config = config
 
