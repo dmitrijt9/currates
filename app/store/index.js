@@ -21,7 +21,9 @@ const store = new Vuex.Store({
         // just for dev debug purposes
         debug: null,
         // favourite exchange pairs
-        favourites: null
+        favourites: null,
+        // user's geolocation
+        userLocation: null
     },
     mutations: {
         database(state, db) {
@@ -59,6 +61,9 @@ const store = new Vuex.Store({
         },
         ratesDate(state, date) {
             state.ratesDate = date
+        },
+        userLocation(state, location) {
+            state.userLocation = location
         }
     },
     actions: {
@@ -171,6 +176,14 @@ const store = new Vuex.Store({
                         okButtonText: "OK"
                     })
                 }
+            }
+        },
+        async getUserLocation({ commit, getters }) {
+            if (getters.connected) {
+                const { country } = await this._vm.$http.getJSON(`https://ipinfo.io?token=5887211fa08452`)
+                commit('userLocation', country)
+            } else {
+                this._vm.$toast.makeText(`Internet connection required`).show()
             }
         }
     },

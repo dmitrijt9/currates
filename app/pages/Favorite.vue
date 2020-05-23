@@ -7,8 +7,7 @@
         <!--        />-->
     </ActionBar>
     <AbsoluteLayout ref="rootLayout">
-        <StackLayout v-if="!favourites">
-            <Label text="Favourites" class="h1 text-center p-16"></Label>
+        <StackLayout v-if="!favourites || favourites.length <= 0" width="100%">
             <FlexboxLayout height="100%" padding="70" flexDirection="column">
                 <Image src.decode="font://&#xf089;" stretch="none" class="fas t-36" alignSelf="center"/>
                 <Label text="No favourite items yet." class="h3 text-center" margin="20" />
@@ -62,7 +61,7 @@
         },
         computed: {
             favourites() {
-                return this.$store.state.favourites
+                return this.$store.state.favourites ? this.$store.state.favourites : []
             },
             classBackdrop() {
                 return this.fabActive ? "backdrop-visible" :

@@ -2,9 +2,16 @@
 <Page>
     <ActionBar title="Convert">
         <ActionItem
+                @tap="getUserLocation"
+                ios.position="right"
+                icon.decode="font://&#xf124;"
+                class="fas t-10"
+        />
+        <ActionItem
             @tap="refetchEurRates"
-            ios.systemIcon="13" ios.position="right"
-            android.systemIcon="ic_popup_sync" android.position="actionBar"
+            ios.position="right"
+            icon.decode="font://&#xf021;"
+            class="fas t-10"
         />
     </ActionBar>
     <StackLayout>
@@ -33,8 +40,8 @@
                 :exchangeResult="exchangeResult"
             />
         </transition>
-        <StackLayout class="favourites-list m-y-16 m-x-30" backgroundColor="#4ebaaa" borderRadius="50%">
-            <Label text="Pick from your favourites" horizontalAlignment="center" :lineHeight="6" textWrap="false" padding="16" />
+        <StackLayout v-if="favourites && favourites.length > 0" class="favourites-list m-y-16 m-x-30" backgroundColor="#4ebaaa" borderRadius="50%">
+            <Label text="Pick from your favourites" horizontalAlignment="center" :lineHeight="6" textWrap="false" padding="8" class="t-12"/>
             <FavouritesList :items="favourites" :on-tap="applyFavouritePair" />
         </StackLayout>
     </StackLayout>
@@ -46,6 +53,8 @@
     import exchangeInput from '../components/exchangeInput'
     import exchangeResult from '../components/exchangeResult'
     import FavouritesList from "~/components/favouritesList";
+    import symbols from "~/enums/symbols";
+    import countryToCurrency from "~/enums/countryToCurrency";
 
     export default {
         components: {
@@ -79,6 +88,15 @@
             },
             favourites() {
                 return this.$store.state.favourites
+            },
+            userCurrentLocationCurrency() {
+                if (this.$store.state.userLocation) {
+                    const _currency = countryToCurrency[this.$store.state.userLocation]
+                    if (symbols[_currency]) {
+                        return _currency
+                    }
+                }
+                return null
             }
         },
         methods: {
@@ -126,6 +144,14 @@
                 } else {
                     this.$toast.makeText(`Latest exchange rates already fetched.`).show()
                 }
+            },
+            async getUserLocation() {
+                await this.$store.dispatch('getUserLocation')
+                if (this.userCurrentLocationCurrency) {
+                    this.selectedCurrencies.base = this.userCurrentLocationCurrency
+
+                    this.$toast.makeText(`Base currency set by your location`).show()
+                }
             }
         }
     }
@@ -146,14 +172,8 @@
         }
     }
 
-    .exchange-pair, .convert-button, .exchange-result {
-        font-weight: 600;
-    }
-
     .favourites-list {
         color: black;
-        font-weight: 600;
-        overflow: hidden;
     }
 
 </style>

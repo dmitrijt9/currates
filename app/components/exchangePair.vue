@@ -1,6 +1,6 @@
 <template>
 <FlexboxLayout flexDirection="column" alignItems="center" justifyContent="space-around" padding="16">
-    <Label text="Choose your exchange pair" :lineHeight="6" textWrap="false" padding="8"/>
+    <Label text="Choose your exchange pair" :lineHeight="6" textWrap="false" padding="8" class="t-12"/>
     <FlexboxLayout flexDirection="row">
         <Button :text="value.base" class="-primary -rounded-lg" @tap="selectBase" flexWrapBefore="true"/>
         <Button text.decode="&#xf362;" color="white" class="-outline fas t-18 -rounded-lg" @tap="switchBaseTo"/>

@@ -2,13 +2,26 @@
 <Page>
     <ActionBar title="Rates">
         <ActionItem
-            @tap="refetchEurRates"
-            ios.systemIcon="13" ios.position="right"
-            android.systemIcon="ic_popup_sync" android.position="actionBar"
+                @tap="getUserLocation"
+                ios.position="right"
+                icon.decode="font://&#xf124;"
+                class="fas t-10"
+        />
+        <ActionItem
+                @tap="refetchEurRates"
+                ios.position="right"
+                icon.decode="font://&#xf021;"
+                class="fas t-10"
         />
     </ActionBar>
     <StackLayout>
-        <FlexboxLayout class="select-base-currency-container" flexDirection="row" alignItems="center" justifyContent="justify-between" margin="16">
+        <FlexboxLayout
+            class="select-base-currency-container"
+            flexDirection="row"
+            alignItems="center"
+            justifyContent="justify-between"
+            padding="16"
+        >
             <Label text="Select base currency" :lineHeight="6" class="h3" textWrap="false" padding="8"/>
             <Button :text="selectedBase" class="-primary -rounded-lg" @tap="selectBase" flexWrapBefore="true"/>
         </FlexboxLayout>
@@ -29,6 +42,9 @@
 </template>
 
 <script>
+    import countryToCurrency from "~/enums/countryToCurrency";
+    import symbols from "~/enums/symbols";
+
     export default {
         data() {
           return {
@@ -45,11 +61,13 @@
             computedRates() {
                 return Object.keys(this.symbols).map(k => {
                     let rate = 0
-                    if (this.selectedBase === 'EUR') {
-                        rate = Math.round((parseFloat(this.eurRates.find(r => r.symbol === k).rate) + Number.EPSILON) * 1000) / 1000
-                    } else {
-                        const inEur = 1 / parseFloat(this.eurRates.find(r => r.symbol === this.selectedBase).rate)
-                        rate = Math.round(((inEur * parseFloat(this.eurRates.find(r => r.symbol === k).rate)) + Number.EPSILON) * 1000) / 1000
+                    if (this.eurRates && this.eurRates.length > 0) {
+                        if (this.selectedBase === 'EUR') {
+                            rate = Math.round((parseFloat(this.eurRates.find(r => r.symbol === k).rate) + Number.EPSILON) * 1000) / 1000
+                        } else {
+                            const inEur = 1 / parseFloat(this.eurRates.find(r => r.symbol === this.selectedBase).rate)
+                            rate = Math.round(((inEur * parseFloat(this.eurRates.find(r => r.symbol === k).rate)) + Number.EPSILON) * 1000) / 1000
+                        }
                     }
                     return {
                         symbol: k,
@@ -63,6 +81,15 @@
             },
             connected() {
                 return this.$store.getters.connected
+            },
+            userCurrentLocationCurrency() {
+                if (this.$store.state.userLocation) {
+                    const _currency = countryToCurrency[this.$store.state.userLocation]
+                    if (symbols[_currency]) {
+                        return _currency
+                    }
+                }
+                return null
             }
         },
         methods: {
@@ -84,6 +111,14 @@
                     }
                 } else {
                     this.$toast.makeText(`Latest exchange rates already fetched.`).show()
+                }
+            },
+            async getUserLocation() {
+                await this.$store.dispatch('getUserLocation')
+                if (this.userCurrentLocationCurrency) {
+                    this.selectedBase = this.userCurrentLocationCurrency
+
+                    this.$toast.makeText(`Base currency set by your location`).show()
                 }
             }
         }

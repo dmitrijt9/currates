@@ -21,6 +21,7 @@
     "@nativescript/theme": "~2.3.0",
     "@vue/devtools": "^5.3.3",
     "dotenv": "^8.2.0",
+    "nativescript-geolocation": "^5.1.0",
     "nativescript-socketio": "^3.3.1",
     "nativescript-sqlite": "^2.6.3",
     "nativescript-toast": "^2.0.0",

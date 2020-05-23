@@ -9,9 +9,10 @@ import config from "~/config";
 import symbols from "~/enums/symbols";
 import Toast from "~/plugins/toast";
 
+Vue.use(VueDevtools, { host: '192.168.0.145' })
 Vue.config.silent = false;
 Vue.prototype.config = config
-Vue.use(VueDevtools, { host: '192.168.0.145' })
+
 new Vue({
     template: `
 
@@ -70,6 +71,8 @@ new Vue({
 
                 await this.$store.dispatch('loadEurRatesFromDb')
                 await this.$store.dispatch('loadFavouritesFromDb')
+            },
+            async mounted() {
                 await this.$store.dispatch('checkConnectionAndFetchedRates')
             },
             async beforeDestroy() {
