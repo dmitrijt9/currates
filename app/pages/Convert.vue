@@ -148,14 +148,10 @@
             },
             async getUserLocation() {
                 await this.$store.dispatch('getUserLocation')
-                if (this.userCurrentLocationCurrency) {
+                if (this.userCurrentLocationCurrency && this.connected) {
                     this.selectedCurrencies.base = this.userCurrentLocationCurrency
-
                     this.$toast.makeText(`Base currency set by your location`).show()
                 }
-            },
-            async loadRatesFromDb() {
-                await this.$store.dispatch('loadEurRatesFromDb')
             }
         }
     }
