@@ -2,6 +2,7 @@
 <FlexboxLayout flexDirection="column" alignItems="center" justifyContent="space-around" padding="16">
     <Label text="Choose your exchange pair" :lineHeight="6" textWrap="false" padding="8" class="t-12"/>
     <FlexboxLayout flexDirection="row">
+<!--        <Button :text="value.base" class="-primary -rounded-lg" @tap="selectBase" flexWrapBefore="true"/>-->
         <Button :text="value.base" class="-primary -rounded-lg" @tap="selectBase" flexWrapBefore="true"/>
         <Button text.decode="&#xf362;" class="-outline fas t-18 -rounded-lg" @tap="switchBaseTo"/>
         <Button :text="value.target" class="-primary -rounded-lg" @tap="selectTo"/>
@@ -10,6 +11,7 @@
 </template>
 
 <script>
+    import rateSymbolsDialog from "~/components/rateSymbolsDialog";
 export default {
     props: {
       value: {
@@ -22,33 +24,30 @@ export default {
           }
       }
     },
+    data() {
+        return {
+            symbolsDialogOpen: false
+        }
+    },
     computed: {
         symbols() {
             return this.$store.getters.symbols
         }
     },
     methods: {
-        selectBase() {
-            action("Select base currency", "Cancel", Object.keys(this.symbols).map(k => k))
-                .then(res => {
-                    if (res !== 'Cancel') {
-                        this.$emit('input', {
-                            base: res,
-                            target: this.value.target
-                        })
-                    }
-                })
+        async selectBase() {
+            const { symbol } = await this.$selectCurrency()
+            this.$emit('input', {
+                base: symbol,
+                target: this.value.target
+            })
         },
-        selectTo() {
-            action("Select to currency", "Cancel", Object.keys(this.symbols).map(k => k))
-                .then(res => {
-                    if (res !== 'Cancel') {
-                        this.$emit('input', {
-                            base: this.value.base,
-                            target: res
-                        })
-                    }
-                })
+        async selectTo() {
+            const { symbol } = await this.$selectCurrency()
+            this.$emit('input', {
+                base: this.value.base,
+                target: symbol
+            })
         },
         switchBaseTo() {
             const tmp = this.value.base

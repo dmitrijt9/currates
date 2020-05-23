@@ -55,13 +55,15 @@
     import FavouritesList from "~/components/favouritesList";
     import symbols from "~/enums/symbols";
     import countryToCurrency from "~/enums/countryToCurrency";
+    import RateSymbolsDialog from "~/components/rateSymbolsDialog";
 
     export default {
         components: {
             FavouritesList,
             exchangePair,
             exchangeInput,
-            exchangeResult
+            exchangeResult,
+            RateSymbolsDialog
         },
         data() {
             return {
@@ -97,6 +99,9 @@
                     }
                 }
                 return null
+            },
+            currencySelectDialogOpen() {
+                return this.$store.state.currencySelectDialogOpen
             }
         },
         methods: {

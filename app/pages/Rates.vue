@@ -93,13 +93,9 @@
             }
         },
         methods: {
-            selectBase() {
-                action("Select base currency", "Cancel", Object.keys(this.symbols).map(k => k))
-                    .then(res => {
-                        if (res !== 'Cancel') {
-                            this.selectedBase = res
-                        }
-                    })
+            async selectBase() {
+                const { symbol } = await this.$selectCurrency()
+                this.selectedBase = symbol
             },
             async refetchEurRates() {
                 if (!this.isCurrentDateSameAsFetchedRatesDate) {
@@ -117,7 +113,6 @@
                 await this.$store.dispatch('getUserLocation')
                 if (this.userCurrentLocationCurrency) {
                     this.selectedBase = this.userCurrentLocationCurrency
-
                     this.$toast.makeText(`Base currency set by your location`).show()
                 }
             }

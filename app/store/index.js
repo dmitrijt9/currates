@@ -25,7 +25,7 @@ const store = new Vuex.Store({
         // favourite exchange pairs
         favourites: null,
         // user's geolocation
-        userLocation: null
+        userLocation: null,
     },
     mutations: {
         database(state, db) {

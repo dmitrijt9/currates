@@ -1,10 +1,6 @@
 <template>
-<Page @loaded="appLoaded">
+<Page>
     <ActionBar title="Favourites">
-        <!--        <ActionItem-->
-        <!--            ios.systemIcon="13" ios.position="right"-->
-        <!--            android.systemIcon="ic_notification" android.position="actionBar"-->
-        <!--        />-->
     </ActionBar>
     <StackLayout v-if="!favourites || favourites.length <= 0" width="100%">
         <FlexboxLayout height="100%" padding="70" flexDirection="column">
@@ -18,12 +14,11 @@
         <StackLayout left="0" top="0" height="100%" width="100%" class="backdrop" :class="classBackdrop" />
 
         <exchange-pair
-                v-if="fabActive"
-                v-model="selectedCurrencies"
-                class="exchange-pair-dialog"
-                :class="classExchangePair"
+            v-if="fabActive"
+            v-model="selectedCurrencies"
+            class="exchange-pair-dialog"
+            :class="classExchangePair"
         />
-<!--        <AbsoluteLayout class="save-button-container" v-if="fabActive" marginTop="71%" marginLeft="76%">-->
         <AbsoluteLayout class="save-button-container" v-if="fabActive">
             <Button
                 @tap="saveFavourite"
@@ -35,7 +30,6 @@
                 left="8"
             />
         </AbsoluteLayout>
-<!--        <AbsoluteLayout class="fab-container" ref="fabItemPosition" marginTop="82%" marginLeft="75%">-->
         <AbsoluteLayout class="fab-container" ref="fabItemPosition">
             <fab-button
                 @tap="fabActive = !fabActive"
@@ -54,7 +48,6 @@
     import ExchangePair from "~/components/exchangePair";
 
     const app = require("tns-core-modules/application");
-    const platform = require("tns-core-modules/platform");
 
     export default {
         components: {ExchangePair, FabButton, FavouritesList},
@@ -80,14 +73,6 @@
             }
         },
         methods: {
-            appLoaded(args) {
-                // let rootLayout = this.$refs.rootLayout.nativeView;
-                //
-                // // Needed to avoid masking child components on Android
-                // if (app.android && platform.device.sdkVersion >= "21") {
-                //     rootLayout.android.setClipChildren(false);
-                // }
-            },
             handleFavouriteTap({ item }) {
                 action(`Select action for ${item.base} -> ${item.target}`, "Close", ["Remove"])
                     .then(async (result) => {
