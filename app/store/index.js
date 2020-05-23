@@ -1,6 +1,8 @@
 import Vue from 'nativescript-vue';
 import Vuex from 'vuex';
 import config from '~/config';
+import { eurRates, ratesDate } from "~/seeds/eurRates";
+
 const connectivity = require("connectivity");
 const Sqlite = require("nativescript-sqlite");
 Vue.use(Vuex);
@@ -44,6 +46,9 @@ const store = new Vuex.Store({
                     rate: rates[i][2]
                 });
             }
+        },
+        eurRatesFromFile(state, rates) {
+            state.eurRates = rates
         },
         favourites(state, favourites) {
             state.favourites = [];
@@ -162,19 +167,17 @@ const store = new Vuex.Store({
          * If app doesn't have any exchange rates data and is not connected to the internet, then show message to the user to connect
          * @returns {Promise<void>}
          */
-        async checkConnectionAndFetchedRates({ dispatch, state, getters }) {
+        async checkConnectionAndFetchedRates({ dispatch, state, getters, commit }) {
             if (getters.connected) {
                 if (!state.eurRates || !getters.isCurrentDateSameAsFetchedRatesDate) {
                     await dispatch('fetchEurRates')
                     await dispatch('loadEurRatesFromDb')
                 }
             } else {
-                if (!state.eurRates) {
-                    alert({
-                        title: "Please, connect to an internet",
-                        message: "We need to load an exchange data before first conversion. Then the app will work offline and download latest rates only when connected.",
-                        okButtonText: "OK"
-                    })
+                if (!state.eurRates || (state.eurRates instanceof Array && state.eurRates.length <= 0)) {
+                    commit('eurRatesFromFile', eurRates)
+                    commit('ratesDate', ratesDate)
+                    this._vm.$toast.makeText(`Connect to the internet to get latest exchange rates`).show()
                 }
             }
         },
