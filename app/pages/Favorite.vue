@@ -23,23 +23,25 @@
                 class="exchange-pair-dialog"
                 :class="classExchangePair"
         />
-        <AbsoluteLayout v-if="fabActive" marginTop="78%" marginLeft="77%">
+<!--        <AbsoluteLayout class="save-button-container" v-if="fabActive" marginTop="71%" marginLeft="76%">-->
+        <AbsoluteLayout class="save-button-container" v-if="fabActive">
             <Button
-                    @tap="saveFavourite"
-                    text.decode="&#xf004;"
-                    class="fas t-18 saveButton"
-                    color="#4ebaaa"
-                    backgroundColor="white"
-                    top="8"
-                    left="8"
+                @tap="saveFavourite"
+                text.decode="&#xf004;"
+                class="fas t-18 saveButton"
+                color="#4ebaaa"
+                backgroundColor="white"
+                top="8"
+                left="8"
             />
         </AbsoluteLayout>
-        <AbsoluteLayout ref="fabItemPosition" marginTop="87%" marginLeft="75%">
+<!--        <AbsoluteLayout class="fab-container" ref="fabItemPosition" marginTop="82%" marginLeft="75%">-->
+        <AbsoluteLayout class="fab-container" ref="fabItemPosition">
             <fab-button
-                    @tap="fabActive = !fabActive"
-                    :is-active="fabActive"
-                    top="8"
-                    left="8"
+                @tap="fabActive = !fabActive"
+                :is-active="fabActive"
+                top="8"
+                left="8"
             />
         </AbsoluteLayout>
     </AbsoluteLayout>
@@ -216,6 +218,14 @@
         height: 120px;
         background-color: $accent;
         border-radius: 100%;
-        margin-bottom: 16px;
+    }
+
+    .fab-container {
+        margin-top: 82%;
+        margin-left: 75%;
+    }
+    .save-button-container {
+        margin-top: 72%;
+        margin-left: 76%;
     }
 </style>
